@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>daccia.io — AI for Critical Care</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+        }
+
+        .fade-in {
+            animation: fadeIn 1.2s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .lang-toggle {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .lang-toggle:hover {
+            opacity: 0.7;
+        }
+
+        [data-lang]:not(.active) {
+            display: none;
+        }
+
+        /* Tooltip styles */
+        .tooltip {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .group:hover .tooltip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="text-black min-h-screen">
+    <!-- Language Toggle -->
+    <div class="fixed top-6 right-6 z-50 flex gap-3 text-sm font-light">
+        <button onclick="setLang('en')" class="lang-toggle" data-lang-btn="en">
+            <span class="opacity-50 hover:opacity-100 transition-opacity">EN</span>
+        </button>
+        <span class="opacity-30">|</span>
+        <button onclick="setLang('it')" class="lang-toggle" data-lang-btn="it">
+            <span class="opacity-50 hover:opacity-100 transition-opacity">IT</span>
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-6 py-20 max-w-4xl fade-in">
+        <!-- Logo with Tooltip -->
+        <div class="mb-8 flex flex-col items-center relative group">
+            <img src="logo.png" alt="daccia.io" class="h-80 md:h-128 opacity-90 cursor-help transition-transform duration-300 group-hover:translate-y-2">
+            
+            <!-- Tooltip - English (appears below logo) -->
+            <div data-lang="en" class="tooltip absolute top-full mt-4 w-full max-w-md bg-white/95 backdrop-blur-sm border border-gray-300 shadow-lg p-5 text-xs leading-relaxed text-gray-700 rounded-lg z-10">
+                The hat belongs to Holden Caulfield from <em>The Catcher in the Rye</em>—a cynical kid who wants to save everyone but can barely save himself. He dreams of catching children before they fall off a cliff. In emergency medicine, that cliff is real. The hat reminds us: stay humble, show up, and recognize we can't catch everyone—but we keep trying anyway.
+            </div>
+            
+            <!-- Tooltip - Italian (appears below logo) -->
+            <div data-lang="it" class="tooltip absolute top-full mt-4 w-full max-w-md bg-white/95 backdrop-blur-sm border border-gray-300 shadow-lg p-5 text-xs leading-relaxed text-gray-700 rounded-lg z-10">
+                Il cappello appartiene a Holden Caulfield de <em>Il giovane Holden</em>—un ragazzo cinico che vuole salvare tutti ma riesce a malapena a salvare se stesso. Sogna di prendere i bambini prima che cadano da un precipizio. In medicina d'emergenza, quel precipizio è reale. Il cappello ci ricorda: restare umili, presentarci, e riconoscere che non possiamo salvare tutti—ma continuiamo a provarci comunque.
+            </div>
+        </div>
+
+        <!-- Tagline EN -->
+        <div data-lang="en">
+            <h1 class="text-3xl md:text-5xl font-light mb-12 text-center leading-tight">
+                Explainable AI for<br>
+                <span class="font-semibold">Critical Care</span>
+            </h1>
+
+            <p class="text-lg md:text-xl font-light text-gray-600 text-center mb-16 max-w-2xl mx-auto">
+                Intelligence at the bedside when it matters most.
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-20 text-center">
+                <div class="border border-gray-200 p-6 bg-gray-50">
+                    <h3 class="text-sm uppercase tracking-wider text-gray-700 mb-2">Explainable</h3>
+                    <p class="text-xs text-gray-600 font-light">Transparent decisions</p>
+                </div>
+                <div class="border border-gray-200 p-6 bg-gray-50">
+                    <h3 class="text-sm uppercase tracking-wider text-gray-700 mb-2">Real-Time</h3>
+                    <p class="text-xs text-gray-600 font-light">When seconds count</p>
+                </div>
+                <div class="border border-gray-200 p-6 bg-gray-50">
+                    <h3 class="text-sm uppercase tracking-wider text-gray-700 mb-2">Reliable</h3>
+                    <p class="text-xs text-gray-600 font-light">High-stakes environments</p>
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <div class="text-center space-y-6 text-sm">
+                <div>
+                    <p class="text-gray-500 mb-2 uppercase tracking-wide text-xs">Contact</p>
+                    <p class="text-gray-700">io@daccia.io</p>
+                </div>
+                <div>
+                    <p class="text-gray-500 mb-2 uppercase tracking-wide text-xs">Partners</p>
+                    <p class="text-gray-700">amici@daccia.io</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tagline IT -->
+        <div data-lang="it" class="active">
+            <h1 class="text-3xl md:text-5xl font-light mb-12 text-center leading-tight">
+                AI Spiegabile per<br>
+                <span class="font-semibold">Ambienti Critici</span>
+            </h1>
+
+            <p class="text-lg md:text-xl font-light text-gray-600 text-center mb-16 max-w-2xl mx-auto">
+                Intelligenza al punto di cura quando conta di più.
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-20 text-center">
+                <div class="border border-gray-200 p-6 bg-gray-50">
+                    <h3 class="text-sm uppercase tracking-wider text-gray-700 mb-2">Spiegabile</h3>
+                    <p class="text-xs text-gray-600 font-light">Decisioni trasparenti</p>
+                </div>
+                <div class="border border-gray-200 p-6 bg-gray-50">
+                    <h3 class="text-sm uppercase tracking-wider text-gray-700 mb-2">Tempo Reale</h3>
+                    <p class="text-xs text-gray-600 font-light">Quando ogni secondo conta</p>
+                </div>
+                <div class="border border-gray-200 p-6 bg-gray-50">
+                    <h3 class="text-sm uppercase tracking-wider text-gray-700 mb-2">Affidabile</h3>
+                    <p class="text-xs text-gray-600 font-light">Ambienti ad alto rischio</p>
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <div class="text-center space-y-6 text-sm">
+                <div>
+                    <p class="text-gray-500 mb-2 uppercase tracking-wide text-xs">Contatti</p>
+                    <p class="text-gray-700">io@daccia.io</p>
+                </div>
+                <div>
+                    <p class="text-gray-500 mb-2 uppercase tracking-wide text-xs">Soci</p>
+                    <p class="text-gray-700">amici@daccia.io</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-24 pt-8 border-t border-gray-200 text-center">
+            <p class="text-xs text-gray-400">&copy; 2026 daccia.io</p>
+        </div>
+    </div>
+
+    <script>
+        // Language switching
+        function setLang(lang) {
+            // Hide all language sections
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Show selected language
+            document.querySelectorAll(`[data-lang="${lang}"]`).forEach(el => {
+                el.classList.add('active');
+            });
+
+            // Update button states
+            document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+                if (btn.dataset.langBtn === lang) {
+                    btn.querySelector('span').classList.remove('opacity-50');
+                    btn.querySelector('span').classList.add('opacity-100');
+                } else {
+                    btn.querySelector('span').classList.remove('opacity-100');
+                    btn.querySelector('span').classList.add('opacity-50');
+                }
+            });
+
+            // Store preference
+            localStorage.setItem('lang', lang);
+        }
+
+        // Initialize language from localStorage or default to Italian
+        const savedLang = localStorage.getItem('lang') || 'it';
+        setLang(savedLang);
+    </script>
+</body>
+</html>
