@@ -104,6 +104,9 @@
                 </div>
             </div>
 
+            <!-- Medium RSS Feed -->
+            <div id="medium-feed-en"></div>
+
             <!-- Contact -->
             <div class="text-center space-y-6 text-sm">
                 <div>
@@ -142,6 +145,9 @@
                     <p class="text-xs text-gray-600 font-light">Ambienti ad alto rischio</p>
                 </div>
             </div>
+
+            <!-- Medium RSS Feed -->
+            <div id="medium-feed-it"></div>
 
             <!-- Contact -->
             <div class="text-center space-y-6 text-sm">
@@ -193,6 +199,103 @@
         // Initialize language from localStorage or default to Italian
         const savedLang = localStorage.getItem('lang') || 'it';
         setLang(savedLang);
+    </script>
+
+    <!-- Medium RSS Feed -->
+    <script>
+        (function() {
+            const MEDIUM_USER = '@io_56957';
+            const FEED_URL = `https://medium.com/feed/${MEDIUM_USER}`;
+            const MAX_POSTS = 6;
+            // Reliable CORS proxies (try in order)
+            const PROXIES = [
+                url => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`,
+            ];
+
+            function stripHtml(html) {
+                const tmp = document.createElement('div');
+                tmp.innerHTML = html;
+                return tmp.textContent || tmp.innerText || '';
+            }
+
+            function getExcerpt(html, maxLen) {
+                const text = stripHtml(html).trim();
+                if (text.length <= maxLen) return text;
+                return text.substring(0, maxLen).replace(/\s+\S*$/, '') + '...';
+            }
+
+            function formatDate(dateStr) {
+                const d = new Date(dateStr);
+                if (isNaN(d)) return '';
+                return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            }
+
+            function renderCards(posts, containerId) {
+                const container = document.getElementById(containerId);
+                if (!container || posts.length === 0) return;
+
+                let html = `
+                    <div class="mb-20">
+                        <h2 class="text-sm uppercase tracking-wider text-gray-500 mb-8 text-center">Latest</h2>
+                        <div class="grid md:grid-cols-2 gap-4">`;
+
+                posts.forEach(post => {
+                    const excerpt = getExcerpt(post.description || post.content || '', 160);
+                    const date = formatDate(post.pubDate);
+                    const categories = (post.categories || []).slice(0, 3);
+                    const tagsHtml = categories.length > 0
+                        ? `<div class="flex flex-wrap gap-2 mb-3">${categories.map(t =>
+                            `<span class="text-[10px] text-gray-400 border border-gray-200 px-2 py-0.5">${t}</span>`
+                          ).join('')}</div>`
+                        : '';
+
+                    html += `
+                        <a href="${post.link}" target="_blank" rel="noopener"
+                           class="block border border-gray-200 p-6 bg-gray-50 hover:bg-gray-100 transition-colors">
+                            <h3 class="text-sm font-semibold text-gray-800 mb-2">${post.title}</h3>
+                            <p class="text-xs text-gray-600 font-light leading-relaxed mb-3">${excerpt}</p>
+                            ${tagsHtml}
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-400 uppercase tracking-wider">Read on Medium &rarr;</span>
+                                ${date ? `<span class="text-[10px] text-gray-400">${date}</span>` : ''}
+                            </div>
+                        </a>`;
+                });
+
+                html += `</div></div>`;
+                container.innerHTML = html;
+            }
+
+            async function fetchFeed() {
+                for (const proxyFn of PROXIES) {
+                    try {
+                        const url = proxyFn(FEED_URL);
+                        const resp = await fetch(url);
+                        if (!resp.ok) continue;
+                        const data = await resp.json();
+
+                        // rss2json format
+                        if (data.status === 'ok' && data.items) {
+                            const posts = data.items.slice(0, MAX_POSTS);
+                            renderCards(posts, 'medium-feed-en');
+                            renderCards(posts, 'medium-feed-it');
+                            return;
+                        }
+                    } catch (e) {
+                        console.warn('RSS proxy failed:', e);
+                    }
+                }
+                // Silent fail — blog section simply stays empty
+                console.warn('Could not load Medium RSS feed.');
+            }
+
+            // Fetch on page load
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', fetchFeed);
+            } else {
+                fetchFeed();
+            }
+        })();
     </script>
 </body>
 </html>
