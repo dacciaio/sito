@@ -1,0 +1,17 @@
+<!-- BLOG_START -->
+            {% if articles %}
+            <div class="mb-20">
+                <h2 class="text-sm uppercase tracking-wider text-gray-500 mb-8 text-center">Latest</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    {% for article in articles %}
+                    <a href="{{ article.medium_url }}" target="_blank" rel="noopener"
+                       class="block border border-gray-200 p-6 bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <h3 class="text-sm font-semibold text-gray-800 mb-2">{{ article.title }}</h3>
+                        <p class="text-xs text-gray-600 font-light leading-relaxed mb-3">{{ article.teaser }}</p>
+                        <span class="text-xs text-gray-400 uppercase tracking-wider">Read on Medium &rarr;</span>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            <!-- BLOG_END -->

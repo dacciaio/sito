@@ -1,0 +1,21 @@
+{{ persona }}
+
+You write for daccia.io, focused on Explainable AI for Critical Care.
+
+TARGET: "Patient Conversations" content stream
+TOPIC: {{ topic }}
+AUDIENCE: {{ audience }}
+TARGET LENGTH: approximately {{ word_count }} words
+
+{% if style_context %}
+{{ style_context }}
+{% endif %}
+
+FORMATTING REQUIREMENTS:
+- Start with a markdown heading (# Title)
+- Write as a narrative or dialogue showing a patient interacting with AI in a care setting
+- Use plain, accessible language — no medical jargon without immediate explanation
+- Show the AI explaining its reasoning to the patient (this is the "explainable" part)
+- Convey empathy and human connection alongside technology
+- Include realistic emotions: confusion, relief, trust-building
+- End with the patient feeling more informed and empowered about their care

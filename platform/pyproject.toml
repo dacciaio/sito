@@ -1,0 +1,58 @@
+[project]
+name = "daccia"
+version = "0.1.0"
+description = "Content generation platform for daccia.io - Explainable AI for Critical Care"
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=0.42.0",
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.34.0",
+    "click>=8.1.0",
+    "rich>=13.9.0",
+    "jinja2>=3.1.0",
+    "sqlmodel>=0.0.22",
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.6.0",
+    "httpx>=0.28.0",
+    "feedparser>=6.0.0",
+    "beautifulsoup4>=4.12.0",
+    "python-dotenv>=1.0.0",
+    "tenacity>=9.0.0",
+    "tiktoken>=0.8.0",
+    "python-dateutil>=2.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+    "respx>=0.22.0",
+]
+
+[project.scripts]
+daccia = "daccia.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/daccia"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
